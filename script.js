@@ -20,11 +20,20 @@ const emojiElements = document.querySelectorAll('.emoji');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    // Connect to Socket.io server
-    socket = io();
-    
-    // Socket.io event listeners
-    setupSocketListeners();
+    // Connect to Socket.io server (with error handling)
+    try {
+        socket = io({
+            reconnection: true,
+            reconnectionDelay: 1000,
+            reconnectionAttempts: 5
+        });
+        
+        // Socket.io event listeners
+        setupSocketListeners();
+    } catch (error) {
+        console.error('Socket connection error:', error);
+        // Chat will still work, just won't connect to server
+    }
 
     // No saved state - user must enter name each time
 
@@ -92,9 +101,17 @@ function startChat() {
     chatContainer.classList.remove('hidden');
     displayName.textContent = userName;
     
-    // Notify server that user joined
-    if (socket) {
+    // Add current user to online users
+    addOnlineUser(userName);
+    
+    // Notify server that user joined (if connected)
+    if (socket && socket.connected) {
         socket.emit('userJoin', userName);
+    } else if (socket) {
+        // If socket exists but not connected, try to emit when connected
+        socket.once('connect', () => {
+            socket.emit('userJoin', userName);
+        });
     }
     
     messageInput.focus();
@@ -141,13 +158,25 @@ function setupSocketListeners() {
     });
 
     // Handle connection errors
-    socket.on('connect_error', () => {
-        addSystemMessage('⚠️ Connection error. Trying to reconnect...');
+    socket.on('connect_error', (error) => {
+        console.error('Connection error:', error);
+        // Only show error if chat is already open
+        if (userName) {
+            addSystemMessage('⚠️ Connection error. Trying to reconnect...');
+        }
     });
 
     socket.on('connect', () => {
+        console.log('Connected to server');
         if (userName) {
             socket.emit('userJoin', userName);
+        }
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+        if (userName) {
+            addSystemMessage('⚠️ Disconnected from server. Reconnecting...');
         }
     });
 }
@@ -163,13 +192,15 @@ function sendMessage() {
         time: new Date()
     };
     
-    // Send message to server
-    if (socket) {
-        socket.emit('message', messageData);
-    }
-    
     // Display message immediately (optimistic update)
     addMessage(messageData);
+    
+    // Send message to server (if connected)
+    if (socket && socket.connected) {
+        socket.emit('message', messageData);
+    } else {
+        addSystemMessage('⚠️ Not connected to server. Message not sent to others.');
+    }
     
     messageInput.value = '';
     messageInput.focus();
