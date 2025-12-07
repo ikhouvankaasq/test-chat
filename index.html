@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Name Selection Modal -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome to Chat!</h2>
+            <p>Enter your name to start chatting</p>
+            <input type="text" id="nameInput" placeholder="Your name..." maxlength="20">
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #40444b;">
+                <p style="font-size: 14px; color: #b9bbbe; margin-bottom: 10px;">Connection Options:</p>
+                <button id="createRoomBtn" style="width: 100%; margin-bottom: 10px; padding: 10px; background: #5865f2; border: none; border-radius: 4px; color: #fff; cursor: pointer;">Create Room</button>
+                <button id="joinRoomBtn" style="width: 100%; padding: 10px; background: #2f3136; border: 1px solid #40444b; border-radius: 4px; color: #fff; cursor: pointer;">Join Room</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Room Modal -->
+    <div id="joinRoomModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Join Room</h2>
+            <p style="color: #b9bbbe; margin-bottom: 20px;">Enter the 4-digit room code</p>
+            <input type="text" id="joinCodeInput" placeholder="Enter room code..." maxlength="4" style="width: 100%; padding: 15px; background: #202225; border: 1px solid #40444b; border-radius: 4px; color: #fff; font-family: monospace; text-align: center; font-size: 24px; font-weight: bold; letter-spacing: 5px;">
+            <button id="connectBtn" style="width: 100%; margin-top: 15px; padding: 12px; background: #5865f2; border: none; border-radius: 4px; color: #fff; cursor: pointer; font-size: 16px; font-weight: 600;">Connect</button>
+            <button id="cancelJoinBtn" style="width: 100%; margin-top: 10px; padding: 12px; background: #2f3136; border: 1px solid #40444b; border-radius: 4px; color: #fff; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
+    <div id="chatContainer" class="chat-container hidden">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="server-header">
+                <h2>💬 Chat Server</h2>
+            </div>
+            <div class="channels">
+                <div class="channel active"># general</div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">👤</div>
+                <div class="user-name" id="displayName">User</div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-content">
+            <div class="chat-header">
+                <h3># general</h3>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div id="roomCodeBadge" class="hidden" style="background: #5865f2; padding: 6px 12px; border-radius: 4px; font-size: 14px; font-weight: 600; font-family: monospace; cursor: pointer;" title="Click to copy room code">
+                        Room: <span id="roomCodeDisplayText">----</span>
+                    </div>
+                    <div class="online-count">🟢 <span id="onlineCount">1</span> online</div>
+                </div>
+            </div>
+            
+            <div class="messages" id="messages"></div>
+            
+            <div class="input-area">
+                <div class="emoji-picker-btn" id="emojiBtn">😀</div>
+                <div class="emoji-picker" id="emojiPicker">
+                    <div class="emoji-grid">
+                        <span class="emoji">😀</span>
+                        <span class="emoji">😂</span>
+                        <span class="emoji">😍</span>
+                        <span class="emoji">🤔</span>
+                        <span class="emoji">😎</span>
+                        <span class="emoji">👍</span>
+                        <span class="emoji">❤️</span>
+                        <span class="emoji">🎉</span>
+                        <span class="emoji">🔥</span>
+                        <span class="emoji">💯</span>
+                        <span class="emoji">✨</span>
+                        <span class="emoji">🚀</span>
+                        <span class="emoji">😊</span>
+                        <span class="emoji">😢</span>
+                        <span class="emoji">😮</span>
+                        <span class="emoji">😴</span>
+                        <span class="emoji">🤗</span>
+                        <span class="emoji">👏</span>
+                        <span class="emoji">🙌</span>
+                        <span class="emoji">💪</span>
+                    </div>
+                </div>
+                <input type="text" id="messageInput" placeholder="Type a message..." maxlength="500">
+                <button id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
