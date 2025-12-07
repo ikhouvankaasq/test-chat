@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Name Selection Modal -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome to Chat!</h2>
+            <p>Enter your name to start chatting</p>
+            <input type="text" id="nameInput" placeholder="Your name..." maxlength="20">
+            <button id="startChatBtn">Start Chatting</button>
+        </div>
+    </div>
+
+    <!-- Main Chat Interface -->
+    <div id="chatContainer" class="chat-container hidden">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="server-header">
+                <h2>💬 Chat Server</h2>
+            </div>
+            <div class="channels">
+                <div class="channel active"># general</div>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar">👤</div>
+                <div class="user-name" id="displayName">User</div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-content">
+            <div class="chat-header">
+                <h3># general</h3>
+                <div class="online-count">🟢 <span id="onlineCount">1</span> online</div>
+            </div>
+            
+            <div class="messages" id="messages"></div>
+            
+            <div class="input-area">
+                <div class="emoji-picker-btn" id="emojiBtn">😀</div>
+                <div class="emoji-picker" id="emojiPicker">
+                    <div class="emoji-grid">
+                        <span class="emoji">😀</span>
+                        <span class="emoji">😂</span>
+                        <span class="emoji">😍</span>
+                        <span class="emoji">🤔</span>
+                        <span class="emoji">😎</span>
+                        <span class="emoji">👍</span>
+                        <span class="emoji">❤️</span>
+                        <span class="emoji">🎉</span>
+                        <span class="emoji">🔥</span>
+                        <span class="emoji">💯</span>
+                        <span class="emoji">✨</span>
+                        <span class="emoji">🚀</span>
+                        <span class="emoji">😊</span>
+                        <span class="emoji">😢</span>
+                        <span class="emoji">😮</span>
+                        <span class="emoji">😴</span>
+                        <span class="emoji">🤗</span>
+                        <span class="emoji">👏</span>
+                        <span class="emoji">🙌</span>
+                        <span class="emoji">💪</span>
+                    </div>
+                </div>
+                <input type="text" id="messageInput" placeholder="Type a message..." maxlength="500">
+                <button id="sendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
